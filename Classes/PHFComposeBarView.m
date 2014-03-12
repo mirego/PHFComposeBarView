@@ -631,13 +631,18 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 
 - (BOOL)isTextFieldContentValid
 {
-    return [[self trimmedTextViewText] length] > 0 ;
-}   
-
-- (NSString *)trimmedTextViewText
-{
-    return [[[self textView] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return [[[self textView] text] length] > 0 && [self contentValidForValidator] ;
 }
+
+- (BOOL)contentValidForValidator
+{
+    if (self.contentValidator != nil) {
+        return [self.contentValidator composeBarView:self isContentValid:[self.textView text]];
+    } else {
+        return YES;
+    }
+}
+
 
 - (void)updateCharCountLabel {
     BOOL isHidden = (_maxCharCount == 0) || [self textHeight] == kTextViewFirstLineHeight;

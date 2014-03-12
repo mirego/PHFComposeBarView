@@ -20,7 +20,7 @@ extern NSString *const PHFComposeBarViewFrameEndUserInfoKey;          // NSValue
 
 
 @protocol PHFComposeBarViewDelegate;
-
+@protocol PHFComposeBarViewContentValidator;
 
 @interface PHFComposeBarView : UIView <UITextViewDelegate>
 
@@ -41,6 +41,7 @@ extern NSString *const PHFComposeBarViewFrameEndUserInfoKey;          // NSValue
 @property (strong, nonatomic) NSString *buttonTitle UI_APPEARANCE_SELECTOR;
 
 @property (weak, nonatomic) id <PHFComposeBarViewDelegate> delegate;
+@property (weak, nonatomic) id <PHFComposeBarViewContentValidator> contentValidator;
 
 // When set to NO, the text view, the utility button, and the main button are
 // disabled.
@@ -94,4 +95,8 @@ extern NSString *const PHFComposeBarViewFrameEndUserInfoKey;          // NSValue
     didChangeFromFrame:(CGRect)startFrame
                toFrame:(CGRect)endFrame;
 
+@end
+
+@protocol PHFComposeBarViewContentValidator <NSObject>
+-(BOOL)composeBarView:(PHFComposeBarView *) composeBarView isContentValid:(NSString *)content;
 @end
