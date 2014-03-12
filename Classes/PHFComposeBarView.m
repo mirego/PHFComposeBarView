@@ -625,8 +625,18 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 }
 
 - (void)updateButtonEnabled {
-    BOOL enabled = [self isEnabled] && [[[self textView] text] length] > 0;
+    BOOL enabled = [self isEnabled] && [self isTextFieldContentValid];
     [[self button] setEnabled:enabled];
+}
+
+- (BOOL)isTextFieldContentValid
+{
+    return [[self trimmedTextViewText] length] > 0 ;
+}   
+
+- (NSString *)trimmedTextViewText
+{
+    return [[[self textView] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (void)updateCharCountLabel {
